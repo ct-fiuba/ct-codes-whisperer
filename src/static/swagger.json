@@ -1,0 +1,892 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Visit Manager for Contact Tracing",
+    "version": "1.0.0",
+    "title": "Visit Manager"
+  },
+  "tags": [
+    {
+      "name": "establishment",
+      "description": "Generation of QR codes related to establishments"
+    }
+  ],
+  "paths": {
+    "/establishments": {
+      "post": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Register new establishment",
+        "operationId": "registerEstablishment",
+        "requestBody": {
+          "description": "Created establishment object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EstablishmentNew"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Establishment registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "establishmentId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "QRs": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "example": 1234
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields / Invalid visibility"
+          },
+          "409": {
+            "description": "Establishment already registered"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Get all establishments",
+        "description": "",
+        "operationId": "getEstablishments",
+        "responses": {
+          "200": {
+            "description": "Establishments registered in Visit Manager",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Establishment"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }, 
+    "/establishments/space": {
+      "post": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Register new space",
+        "operationId": "registerSpace",
+        "requestBody": {
+          "description": "Created space object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SpaceNew"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Space registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SpaceNewResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields / Invalid visibility"
+          },
+          "409": {
+            "description": "Space already registered"
+          }
+        }
+      }
+    },
+    "/establishments/{establishmentId}": {
+      "get": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Get establishment by id",
+        "description": "",
+        "operationId": "getEstablishmentById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathEstablishmentId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Establishment registered in Visit Manager",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Establishment"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Update Establishment by id",
+        "description": "",
+        "operationId": "editEstablishment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathEstablishmentId"
+          }
+        ],
+        "requestBody": {
+          "description": "Edit establishment object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EditEstablishment"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Establishment edited successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Establishment"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid fields / Invalid visibility"
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Delete establishment by id",
+        "description": "",
+        "operationId": "deleteEstablishmentById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathEstablishmentId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Establishment deleted successfully"
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      }
+    },
+    "/establishments/owner/{ownerId}": {
+      "get": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Get establishments by owner id",
+        "description": "",
+        "operationId": "getEstablishmentsByOwnerId",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathOwnerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Establishment registered in Visit Manager",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Establishment"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      }
+    },
+    "/establishments/PDF/{establishmentId}": {
+      "get": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Get establishment PDF",
+        "description": "Get establishment PDF",
+        "operationId": "getEstablishmentPDF",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathEstablishmentId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Establishment PDF generated",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      }
+    },
+    "/establishments/PDF/{establishmentId}/space/{spaceId}": {
+      "get": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Get single space PDF",
+        "description": "Get single space PDF",
+        "operationId": "getSingleSpacePDF",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathEstablishmentId"
+          },
+          {
+            "$ref": "#/components/parameters/pathSpaceId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Space PDF generated",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "404": {
+            "description": "Space not found"
+          }
+        }
+      }
+    },
+    "/establishments/space/{spaceId}": {
+      "put": {
+        "tags": [
+          "establishments"
+        ],
+        "summary": "Update Space by id",
+        "description": "",
+        "operationId": "editSpace",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathSpaceId"
+          }
+        ],
+        "requestBody": {
+          "description": "Edit Space object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EditSpace"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Establishment edited successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SpaceNewResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid fields / Invalid visibility"
+          },
+          "404": {
+            "description": "Establishment not found"
+          }
+        }
+      }
+    },
+    "/visits": {
+      "post": {
+        "tags": [
+          "visits"
+        ],
+        "summary": "Register new visit",
+        "operationId": "addVisit",
+        "requestBody": {
+          "description": "Created visit object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/VisitNew"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Visit registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields / Invalid visibility"
+          },
+          "404": {
+            "description": "Space linked to the scan code not found"
+          },
+          "409": {
+            "description": "Establishment already registered"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "visits"
+        ],
+        "summary": "Get all visits",
+        "description": "",
+        "operationId": "getVisits",
+        "responses": {
+          "200": {
+            "description": "Visits registered in Visit Manager",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/Visit"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+        "pathEstablishmentId": {
+          "in": "path",
+          "name": "establishmentId",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "pathSpaceId": {
+          "in": "path",
+          "name": "spaceId",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "pathOwnerId": {
+          "in": "path",
+          "name": "ownerId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+    },
+    "schemas": {
+      "Establishment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "type": {
+            "type": "string",
+            "example": "restaurant"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mc Donalds"
+          },
+          "address": {
+            "type": "string",
+            "example": "Cabildo 1010"
+          },
+          "city": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "state": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "zip": {
+            "type": "string",
+            "example": "1430ACV"
+          },
+          "country": {
+            "type": "string",
+            "example": "Argentina"
+          },
+          "ownerId": {
+            "type": "string",
+            "example": "jo1ius8df013bk13i09"
+          },
+          "QRs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "QRCode": {
+                  "type": "string",
+                  "example": "1L23NOIUV081LJOGIJ5D1234085"
+                },
+                "nameQR": {
+                  "type": "string",
+                  "example": "Open Store"
+                },
+                "m2": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "estimatedVisitDuration": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "openPlace": {
+                  "type": "boolean",
+                  "example": "true"
+                },
+                "n95Mandatory": {
+                  "type": "boolean",
+                  "example": "false"
+                }
+              }
+            }
+          }
+        }
+      },
+      "EstablishmentNew": {
+        "type": "object",
+        "required": [
+          "type",
+          "name",
+          "address",
+          "city",
+          "state",
+          "zip",
+          "country",
+          "QRs"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "restaurant"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mc Donalds"
+          },
+          "address": {
+            "type": "string",
+            "example": "Cabildo 1010"
+          },
+          "city": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "state": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "zip": {
+            "type": "string",
+            "example": "1430ACV"
+          },
+          "country": {
+            "type": "string",
+            "example": "Argentina"
+          },
+          "ownerId": {
+            "type": "string",
+            "example": "jo1ius8df013bk13i09"
+          },
+          "QRs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nameQR": {
+                  "type": "string",
+                  "example": "Open Store"
+                },
+                "m2": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "estimatedVisitDuration": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "openPlace": {
+                  "type": "boolean",
+                  "example": "true"
+                },
+                "n95Mandatory": {
+                  "type": "boolean",
+                  "example": "false"
+                }
+              }
+            }
+          }
+        }
+      },
+      "EditEstablishment": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "restaurant"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mc Donalds"
+          },
+          "address": {
+            "type": "string",
+            "example": "Cabildo 1010"
+          },
+          "city": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "state": {
+            "type": "string",
+            "example": "CABA"
+          },
+          "zip": {
+            "type": "string",
+            "example": "1430ACV"
+          },
+          "country": {
+            "type": "string",
+            "example": "Argentina"
+          },
+          "ownerId": {
+            "type": "string",
+            "example": "jo1ius8df013bk13i09"
+          }
+        }
+      },
+      "VisitNew": {
+        "type": "object",
+        "required": [
+          "scanCode",
+          "userGeneratedCode",
+          "timestamp",
+          "genuxToken"
+        ],
+        "properties": {
+          "scanCode": {
+            "type": "string",
+            "example": "MNPQWOEUPO452345"
+          },
+          "userGeneratedCode": {
+            "type": "string",
+            "example": "1PWIOEJPOVUP12OI34J"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "1970-01-01 00:00:01"
+          },
+          "genuxToken": {
+            "type": "string",
+            "example": "O1LENWFPO1H3N2ORNSDFV"
+          }
+        }
+      },
+      "SpaceNew": {
+        "type": "object",
+        "required": [
+          "name",
+          "m2",
+          "estimatedVisitDuration",
+          "hasExit",
+          "openPlace",
+          "establishmentId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Espacio 1"
+          },
+          "m2": {
+            "type": "integer",
+            "example": 15
+          },
+          "estimatedVisitDuration": {
+            "type": "integer",
+            "example": 30
+          },
+          "hasExit": {
+            "type": "boolean",
+            "example": false
+          },
+          "openPlace": {
+            "type": "boolean",
+            "example": true
+          },
+          "establishmentId": {
+            "type": "integer",
+            "example": 1
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "SpaceNewResponse": {
+        "type": "object",
+        "required": [
+          "name",
+          "m2",
+          "estimatedVisitDuration",
+          "hasExit",
+          "openPlace",
+          "establishmentId",
+          "_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Espacio 1"
+          },
+          "m2": {
+            "type": "integer",
+            "example": 15
+          },
+          "estimatedVisitDuration": {
+            "type": "integer",
+            "example": 30
+          },
+          "hasExit": {
+            "type": "boolean",
+            "example": false
+          },
+          "openPlace": {
+            "type": "boolean",
+            "example": true
+          },
+          "establishmentId": {
+            "type": "integer",
+            "example": 1
+          },
+          "_id": {
+            "type": "integer",
+            "example": 444
+          }
+        }
+      },
+      "EditSpace": {
+        "type": "object",
+        "required": [
+          "establishmentId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Espacio 1"
+          },
+          "m2": {
+            "type": "integer",
+            "example": 15
+          },
+          "estimatedVisitDuration": {
+            "type": "integer",
+            "example": 30
+          },
+          "hasExit": {
+            "type": "boolean",
+            "example": false
+          },
+          "openPlace": {
+            "type": "boolean",
+            "example": true
+          },
+          "establishmentId": {
+            "type": "integer",
+            "example": 1
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Visit": {
+        "type": "object",
+        "required": [
+          "scanCode",
+          "userGeneratedCode",
+          "timestamp",
+          "isExitScan",
+          "vaccinated",
+          "covidRecovered"
+        ],
+        "properties": {
+          "scanCode": {
+            "type": "string",
+            "example": "MNPQWOEUPO452345"
+          },
+          "userGeneratedCode": {
+            "type": "string",
+            "example": "1PWIOEJPOVUP12OI34J"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "1970-01-01 00:00:01"
+          },
+          "isExitScan": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "vaccinated": {
+            "type": "integer",
+            "example": "1"
+          },
+          "vaccineReceived": {
+            "type": "string",
+            "example": "Pfizer"
+          },
+          "vaccinatedDate": {
+            "type": "string",
+            "example": "1970-01-01 00:00:01"
+          },
+          "covidRecovered": {
+            "type": "boolean",
+            "example": "true"
+          },
+          "covidRecoveredDate": {
+            "type": "boolean",
+            "example": "true"
+          }
+        }
+      }
+    }
+  }
+}

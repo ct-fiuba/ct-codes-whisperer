@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: ct-codes-whisperer:latest
+    env_file:
+      - .env
+    environment:
+      - PORT=5005
+      - MONGODB_URI=mongodb://ct-codes-whisperer-db:27017/ct-codes-whisperer-db
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - ct-codes-whisperer-db
+
+  ct-codes-whisperer-db:
+    image: mongo:3.6.4

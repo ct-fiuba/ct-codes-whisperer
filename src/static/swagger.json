@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Code Whisperer for Contact Tracing",
+    "version": "1.0.0",
+    "title": "Code Whisperer"
+  },
+  "tags": [
+    {
+      "name": "billboard",
+      "description": "Expose detected compromised codes"
+    }
+  ],
+  "paths": {
+    "/billboard": {
+      "get": {
+        "tags": [
+          "billboard"
+        ],
+        "summary": "Get all compromised codes",
+        "description": "",
+        "operationId": "getCompromisedCodes",
+        "responses": {
+          "200": {
+            "description": "Compromised Codes detected by system",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/CompromisedCode"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompromisedCode": {
+        "type": "object",
+        "properties": {
+          "scanCode": {
+            "type": "string",
+            "example": "MNPQWOEUPO452345"
+          },
+          "userGeneratedCode": {
+            "type": "string",
+            "example": "1PWIOEJPOVUP12OI34J"
+          },
+          "detectedDate": {
+            "type": "string",
+            "example": "1970-01-01 00:00:01"
+          }
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,44 @@
         "tags": [
           "billboard"
         ],
-        "summary": "Get all compromised codes",
+        "summary": "Get compromised codes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "risk",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userGeneratedCode",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scanCode",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dateDetected",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "description": "",
         "operationId": "getCompromisedCodes",
         "responses": {
@@ -58,7 +95,11 @@
           },
           "detectedDate": {
             "type": "string",
-            "example": "1970-01-01 00:00:01"
+            "example": "1970-01-01"
+          },
+          "risk": {
+            "type": "number",
+            "example": 1
           }
         }
       }

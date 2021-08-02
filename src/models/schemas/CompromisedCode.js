@@ -15,6 +15,11 @@ let compromisedCodeSchema = mongoose.Schema({
     default: Date.now(),
     required: true
   },
+  risk: {
+    type: Number,
+    default: 0,
+    required: true
+  },
 });
 
 const CompromisedCode = module.exports = mongoose.model('CompromisedCode', compromisedCodeSchema);

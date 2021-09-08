@@ -10,7 +10,7 @@ let server;
 let visitCompromised = {
   scanCode: new mongoose.Types.ObjectId(),
   userGeneratedCode: "anUserGeneratedCode",
-  dateDetected: "10-08-2021",
+  dateDetected: "2021-08-10",
   risk: 1,
 }
 
@@ -52,7 +52,7 @@ describe('App test', () => {
       });
 
       test('should return all codes from date', async () => {
-        await request(server).get('/billboard?from=01-08-2021').then(res => {
+        await request(server).get('/billboard?from=2021-08-01').then(res => {
           expect(res.status).toBe(200);
           expect(res.body).toHaveLength(1);
         });

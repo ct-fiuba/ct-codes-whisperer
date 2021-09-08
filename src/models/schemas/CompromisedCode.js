@@ -12,7 +12,7 @@ let compromisedCodeSchema = mongoose.Schema({
   },
   dateDetected: {
     type: Date,
-    default: Date.now(),
+    default: new Date(),
     required: true
   },
   risk: {

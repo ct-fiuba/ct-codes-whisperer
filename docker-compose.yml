@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     environment:
-      - PORT=5005
+      - PORT=5008
       - MONGODB_URI=mongodb://ct-codes-whisperer-db:27017/ct-codes-whisperer-db
     ports:
       - "${PORT}:${PORT}"

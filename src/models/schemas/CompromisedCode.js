@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 let compromisedCodeSchema = mongoose.Schema({
-  scanCode: {
+  spaceId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },

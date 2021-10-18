@@ -16,7 +16,7 @@ let visitCompromised = {
 
 describe('App test', () => {
   beforeAll(async () => {
-    server = await app.listen(5005);
+    server = await app.listen(5008);
   });
 
   afterAll(async (done) => {

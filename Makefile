@@ -16,7 +16,7 @@ test:
 
 .PHONY: ping
 ping:
-	curl -vvv "localhost:5005/ping"
+	curl -vvv "localhost:5008/ping"
 
 # -- Heroku related commands
 # You need to be logged in Heroku CLI before doing this

@@ -8,7 +8,7 @@ mongoose.connect(mongoURL);
 let server;
 
 let visitCompromised = {
-  scanCode: new mongoose.Types.ObjectId(),
+  spaceId: new mongoose.Types.ObjectId(),
   userGeneratedCode: "anUserGeneratedCode",
   dateDetected: "2021-08-10",
   risk: 1,
@@ -16,7 +16,7 @@ let visitCompromised = {
 
 describe('App test', () => {
   beforeAll(async () => {
-    server = await app.listen(5005);
+    server = await app.listen(5008);
   });
 
   afterAll(async (done) => {

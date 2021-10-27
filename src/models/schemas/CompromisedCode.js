@@ -7,8 +7,7 @@ let compromisedCodeSchema = mongoose.Schema({
   },
   userGeneratedCode: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   dateDetected: {
     type: Date,
